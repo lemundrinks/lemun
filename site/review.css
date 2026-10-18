@@ -22,3 +22,16 @@
 
 /* Transparent cutouts preserve original bottle and label colors. */
 .product-photo img[src$="-cutout.png"]{mix-blend-mode:normal}
+
+/* Normalize the visible bottle, rather than its surrounding image canvas. */
+.product-photo{position:relative;overflow:hidden}
+.product .product-photo img[src$="-cutout.png"]{position:absolute;width:auto;max-width:none;height:var(--bottle-height);top:var(--bottle-top);left:50%;transform:translateX(var(--bottle-center));object-fit:contain}
+.product:hover .product-photo img[src$="-cutout.png"]{transform:translateX(var(--bottle-center)) translateY(-5px)}
+.product-photo img[src$="drink-0-cutout.png"]{--bottle-height:105.683%;--bottle-top:-2.050%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-1-cutout.png"]{--bottle-height:99.940%;--bottle-top:0.685%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-2-cutout.png"]{--bottle-height:96.974%;--bottle-top:2.116%;--bottle-center:-50.046%}
+.product-photo img[src$="drink-3-cutout.png"]{--bottle-height:111.341%;--bottle-top:-7.120%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-4-cutout.png"]{--bottle-height:100.796%;--bottle-top:-0.300%;--bottle-center:-49.658%}
+.product-photo img[src$="drink-5-cutout.png"]{--bottle-height:107.622%;--bottle-top:-3.662%;--bottle-center:-49.125%}
+.product-photo img[src$="drink-6-cutout.png"]{--bottle-height:103.345%;--bottle-top:-1.423%;--bottle-center:-50.046%}
+.product-photo img[src$="drink-7-cutout.png"]{--bottle-height:100.176%;--bottle-top:-0.088%;--bottle-center:-50.184%}
