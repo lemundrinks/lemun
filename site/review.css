@@ -52,3 +52,5 @@
 @keyframes ingredient-appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.ingredient-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);border-radius:18px}.ingredient-dialog[open]{grid-template-columns:1fr}.ingredient-visual{min-height:0;padding:25px 22px 20px;gap:12px}.ingredient-visual img{height:180px}.ingredient-visual-note{display:none}.ingredient-content{padding:25px}.ingredient-content h2{font-size:34px}.ingredient-content .eyebrow{margin-bottom:10px}#ingredient-list{margin:20px 0}.ingredient-close{top:12px;right:12px}.ingredient-label{padding-right:30px}}
 @media(prefers-reduced-motion:reduce){.ingredient-dialog[open]{animation:none}}
+
+.form-honeypot{display:none!important}.form-privacy{font-size:11px;line-height:1.6;color:#506454;margin:16px 0 0}.form-privacy a{text-decoration:underline;text-underline-offset:3px}.inquiry button:disabled{opacity:.65;cursor:not-allowed}#form-status[data-state=success]{color:#21583b}#form-status[data-state=error]{color:#963d2c}
