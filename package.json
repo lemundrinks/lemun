@@ -1,0 +1,1 @@
+{"name":"lemun-phase-one","private":true,"version":"0.1.0","scripts":{"dev":"node tools/preview.mjs","build":"node tools/build.mjs","check":"node tools/check.mjs"},"engines":{"node":">=18"}}
