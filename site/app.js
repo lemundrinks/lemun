@@ -55,3 +55,45 @@ if (form) {
     catch { draft.focus(); draft.select(); document.querySelector('#form-status').textContent = 'Select and copy the draft, then paste it into your email app.'; }
   });
 }
+
+// Enhance the ingredient lists with a native, keyboard-accessible modal.
+const ingredientDialog = document.querySelector('#ingredient-dialog');
+if (ingredientDialog && typeof ingredientDialog.showModal === 'function') {
+  let ingredientTrigger;
+  document.querySelectorAll('.product').forEach(card => {
+    const details = card.querySelector('.ingredients');
+    if (!details) return;
+    const name = card.querySelector('h3').textContent;
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'ingredient-trigger';
+    trigger.textContent = 'What’s inside';
+    trigger.setAttribute('aria-label', `What’s inside ${name}`);
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute('aria-controls', 'ingredient-dialog');
+    details.before(trigger);
+    details.hidden = true;
+    trigger.addEventListener('click', () => {
+      ingredientTrigger = trigger;
+      document.querySelector('#ingredient-title').textContent = name;
+      const sourceImage = card.querySelector('.product-photo img');
+      const image = document.querySelector('#ingredient-image');
+      image.src = sourceImage.getAttribute('src');
+      image.alt = sourceImage.alt;
+      document.querySelector('#ingredient-list').replaceChildren(...Array.from(details.querySelectorAll('li'), li => li.cloneNode(true)));
+      ingredientDialog.dataset.tone = card.classList[1];
+      ingredientDialog.showModal();
+      document.body.classList.add('ingredient-modal-open');
+    });
+  });
+  ingredientDialog.querySelector('.ingredient-close').addEventListener('click', () => ingredientDialog.close());
+  ingredientDialog.addEventListener('click', event => {
+    if (event.target !== ingredientDialog) return;
+    const bounds = ingredientDialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) ingredientDialog.close();
+  });
+  ingredientDialog.addEventListener('close', () => {
+    document.body.classList.remove('ingredient-modal-open');
+    ingredientTrigger?.focus();
+  });
+}
