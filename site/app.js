@@ -44,10 +44,10 @@ if (form) {
     const data = new FormData(form);
     const subject = `Lemun inquiry: ${data.get('type')}`;
     const body = `Name: ${String(data.get('name')).trim()}\nEmail: ${data.get('email')}\nBusiness: ${String(data.get('business')).trim() || 'Not provided'}\nInterest: ${data.get('type')}\n\n${String(data.get('message')).trim()}`;
-    document.querySelector('#draft-text').value = `To: lemunnaturaldrinks@gmail.com\nSubject: ${subject}\n\n${body}`;
+    document.querySelector('#draft-text').value = `To: sales@lemundrinks.com\nSubject: ${subject}\n\n${body}`;
     document.querySelector('#draft').hidden = false;
     document.querySelector('#form-status').textContent = 'Your draft is ready. Review and send it in your email app, or copy it below. This inquiry has not been sent.';
-    window.location.href = `mailto:lemunnaturaldrinks@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:sales@lemundrinks.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
   document.querySelector('#copy').addEventListener('click', async () => {
     const draft = document.querySelector('#draft-text');
