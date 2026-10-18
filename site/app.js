@@ -38,21 +38,66 @@ if (form) {
     document.querySelector('#inquiry-type').value = a.dataset.inquiry || 'Product availability / ordering';
     if (a.dataset.product) document.querySelector('#message').value = `I'd like to learn more about ${a.dataset.product}. Please share current availability, ingredients, sizes, and pricing.`;
   }));
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
+  const submitButton = form.querySelector('[type="submit"]');
+  const status = document.querySelector('#form-status');
+  const accessKey = form.elements.namedItem('access_key');
+  const configured = () => Boolean(accessKey.value.trim());
+  submitButton.disabled = !configured();
+  if (!configured()) status.textContent = 'Online inquiries are being connected. Please email sales@lemundrinks.com or call us in the meantime.';
+  let sending = false;
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (sending || !form.reportValidity()) return;
+    if (!configured()) {
+      status.textContent = 'Please email sales@lemundrinks.com while online inquiries are being connected.';
+      return;
+    }
+    if (form.elements.namedItem('botcheck').checked) return;
     const data = new FormData(form);
-    const subject = `Lemun inquiry: ${data.get('type')}`;
-    const body = `Name: ${String(data.get('name')).trim()}\nEmail: ${data.get('email')}\nBusiness: ${String(data.get('business')).trim() || 'Not provided'}\nInterest: ${data.get('type')}\n\n${String(data.get('message')).trim()}`;
-    document.querySelector('#draft-text').value = `To: sales@lemundrinks.com\nSubject: ${subject}\n\n${body}`;
-    document.querySelector('#draft').hidden = false;
-    document.querySelector('#form-status').textContent = 'Your draft is ready. Review and send it in your email app, or copy it below. This inquiry has not been sent.';
-    window.location.href = `mailto:sales@lemundrinks.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
-  document.querySelector('#copy').addEventListener('click', async () => {
-    const draft = document.querySelector('#draft-text');
-    try { await navigator.clipboard.writeText(draft.value); document.querySelector('#form-status').textContent = 'Draft copied. Paste it into your email app and send it to Lemun.'; }
-    catch { draft.focus(); draft.select(); document.querySelector('#form-status').textContent = 'Select and copy the draft, then paste it into your email app.'; }
+    const payload = {
+      access_key: accessKey.value.trim(),
+      name: String(data.get('name')).trim(),
+      email: String(data.get('email')).trim(),
+      type: data.get('type'),
+      business: String(data.get('business') || '').trim(),
+      message: String(data.get('message')).trim(),
+      subject: `Lemun inquiry: ${data.get('type')}`,
+      from_name: 'Lemun website'
+    };
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    sending = true;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending…';
+    form.setAttribute('aria-busy', 'true');
+    status.textContent = 'Sending your inquiry…';
+    status.dataset.state = 'sending';
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) throw new Error('Submission not accepted');
+      form.reset();
+      status.textContent = 'Thank you! Your inquiry has been submitted. Lemun will reply to the email address you provided.';
+      status.dataset.state = 'success';
+      status.focus();
+    } catch (error) {
+      status.textContent = error.name === 'AbortError'
+        ? 'We could not confirm your submission in time. Your entries are still here. Please email sales@lemundrinks.com if you need help.'
+        : 'Your inquiry could not be confirmed. Your entries are still here—please try again or email sales@lemundrinks.com.';
+      status.dataset.state = 'error';
+      status.focus();
+    } finally {
+      clearTimeout(timeout);
+      sending = false;
+      submitButton.disabled = !configured();
+      submitButton.textContent = 'Send inquiry ↗';
+      form.removeAttribute('aria-busy');
+    }
   });
 }
 
