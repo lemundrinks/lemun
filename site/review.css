@@ -19,3 +19,19 @@
 .hero-art.hero-logo{background:var(--ink);min-height:620px;padding:60px 7%;display:flex;flex-direction:column;align-items:center;justify-content:center;isolation:isolate}.hero-art.hero-logo:after{display:none}.logo-halo{position:absolute;width:90%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#50734a55,transparent 68%);z-index:-1}.hero-art.hero-logo img.hero-wordmark{display:block;width:100%;max-width:620px;height:auto;object-fit:contain;object-position:center;border:0;border-radius:0;box-shadow:none;mix-blend-mode:normal;filter:none;transform:none}.logo-signoff{font-size:10px;letter-spacing:3px;color:#dfd9ac;margin:30px 0 0}.brand img.brand-logo{display:block;width:145px;height:66px;object-fit:contain}header .brand{background:var(--ink);padding:4px 18px;border-radius:4px}footer .brand img.brand-logo{width:190px;height:88px}
 @media(max-width:1000px){.hero-art.hero-logo{min-height:520px;padding:45px 6%}}
 @media(max-width:700px){.hero-art.hero-logo{min-height:320px;padding:25px 10% 50px}.logo-signoff{font-size:8px;margin-top:15px}header .brand{padding:0 12px}.brand img.brand-logo{width:125px;height:55px}}
+
+/* Transparent cutouts preserve original bottle and label colors. */
+.product-photo img[src$="-cutout.png"]{mix-blend-mode:normal}
+
+/* Normalize the visible bottle, rather than its surrounding image canvas. */
+.product-photo{position:relative;overflow:hidden}
+.product .product-photo img[src$="-cutout.png"]{position:absolute;width:auto;max-width:none;height:var(--bottle-height);top:var(--bottle-top);left:50%;transform:translateX(var(--bottle-center));object-fit:contain}
+.product:hover .product-photo img[src$="-cutout.png"]{transform:translateX(var(--bottle-center)) translateY(-5px)}
+.product-photo img[src$="drink-0-cutout.png"]{--bottle-height:105.683%;--bottle-top:-2.050%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-1-cutout.png"]{--bottle-height:99.940%;--bottle-top:0.685%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-2-cutout.png"]{--bottle-height:96.974%;--bottle-top:2.116%;--bottle-center:-50.046%}
+.product-photo img[src$="drink-3-cutout.png"]{--bottle-height:111.341%;--bottle-top:-7.120%;--bottle-center:-50.000%}
+.product-photo img[src$="drink-4-cutout.png"]{--bottle-height:100.796%;--bottle-top:-0.300%;--bottle-center:-49.658%}
+.product-photo img[src$="drink-5-cutout.png"]{--bottle-height:107.622%;--bottle-top:-3.662%;--bottle-center:-49.125%}
+.product-photo img[src$="drink-6-cutout.png"]{--bottle-height:103.345%;--bottle-top:-1.423%;--bottle-center:-50.046%}
+.product-photo img[src$="drink-7-cutout.png"]{--bottle-height:100.176%;--bottle-top:-0.088%;--bottle-center:-50.184%}
