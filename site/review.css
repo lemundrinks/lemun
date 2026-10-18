@@ -35,3 +35,10 @@
 .product-photo img[src$="drink-5-cutout.png"]{--bottle-height:107.622%;--bottle-top:-3.662%;--bottle-center:-49.125%}
 .product-photo img[src$="drink-6-cutout.png"]{--bottle-height:103.345%;--bottle-top:-1.423%;--bottle-center:-50.046%}
 .product-photo img[src$="drink-7-cutout.png"]{--bottle-height:100.176%;--bottle-top:-0.088%;--bottle-center:-50.184%}
+
+/* Ingredient lists remain available without JavaScript. */
+.product .ingredients{margin:0 0 20px;border-top:1px solid #163e2e26;padding-top:13px;font-size:12px;line-height:1.6}
+.ingredients summary{cursor:pointer;font-weight:bold;display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;padding:4px 0}
+.ingredients summary::-webkit-details-marker{display:none}.ingredients summary:after{content:'+';font-size:19px;font-weight:normal;line-height:1}.ingredients[open] summary:after{content:'−'}
+.ingredients summary:focus-visible{outline:3px solid #b17d13;outline-offset:4px;border-radius:2px}
+.ingredients ul{padding-left:18px;margin:12px 0 3px;color:#304d3b}.ingredients li{margin:3px 0}
