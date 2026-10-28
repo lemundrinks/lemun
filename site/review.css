@@ -54,3 +54,8 @@
 @media(prefers-reduced-motion:reduce){.ingredient-dialog[open]{animation:none}}
 
 .form-honeypot{display:none!important}.form-privacy{font-size:11px;line-height:1.6;color:#506454;margin:16px 0 0}.form-privacy a{text-decoration:underline;text-underline-offset:3px}.inquiry button:disabled{opacity:.65;cursor:not-allowed}#form-status[data-state=success]{color:#21583b}#form-status[data-state=error]{color:#963d2c}
+
+/* Keep submission feedback prominent and in view. */
+#form-status:empty{display:none}#form-status:not(:empty){padding:20px;margin:18px 0;border:1px solid #163e2e40;border-radius:10px;background:#e6ebdc;font-size:15px;line-height:1.7;font-weight:600;scroll-margin:140px}
+#form-status[data-state=success]{background:#e2efdf;color:#163e2e;border-color:#79a06e}#form-status[data-state=success]:before{content:'✓ Inquiry submitted';display:block;font-family:Georgia,serif;font-size:25px;font-weight:normal;margin-bottom:8px}
+#form-status[data-state=error]{background:#fff1e9;color:#803c25;border-color:#c99278}#form-status[data-state=sending]{background:#f5edcf;color:#4d4825}#form-status:focus{outline:2px solid #b17d13;outline-offset:3px}
