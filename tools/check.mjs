@@ -18,5 +18,7 @@ for (const file of ['index.html', 'privacy.html']) {
 assert.equal((html.match(/class="product /g) || []).length, 8, 'Eight confirmed drinks');
 assert.equal((html.match(/data-city=/g) || []).length, 6, 'Six confirmed retailers');
 for (const claim of ['no added sugar', '100% natural', 'supports immunity', 'detoxifies', 'healing power', 'vegan']) assert(!html.toLowerCase().includes(claim), `Unresolved claim: ${claim}`);
-assert(!html.includes('type="submit">Send'), 'No implied form delivery');
+assert(html.includes('action="https://api.web3forms.com/submit"'), 'Expected Web3Forms endpoint');
+assert(html.includes('name="access_key"'), 'Missing Web3Forms access key field');
+assert(!html.includes('id="draft"'), 'Remove the obsolete email draft UI');
 console.log('Passed: local links/assets, unique anchors, eight drinks, six retailers, responsive metadata, preview indexing and unresolved-claim checks.');
