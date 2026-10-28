@@ -44,6 +44,14 @@ if (form) {
   const configured = () => Boolean(accessKey.value.trim());
   submitButton.disabled = !configured();
   if (!configured()) status.textContent = 'Online inquiries are being connected. Please email sales@lemundrinks.com or call us in the meantime.';
+  const revealStatus = () => {
+    status.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+    status.focus({ preventScroll: true });
+  };
+  form.addEventListener('invalid', event => {
+    status.dataset.state = 'error';
+    status.textContent = 'Please complete the required fields and enter a valid email address before sending.';
+  }, true);
   let sending = false;
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -72,6 +80,7 @@ if (form) {
     form.setAttribute('aria-busy', 'true');
     status.textContent = 'Sending your inquiry…';
     status.dataset.state = 'sending';
+    revealStatus();
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -84,13 +93,13 @@ if (form) {
       form.reset();
       status.textContent = 'Thank you! Your inquiry has been submitted. Lemun will reply to the email address you provided.';
       status.dataset.state = 'success';
-      status.focus();
+      revealStatus();
     } catch (error) {
       status.textContent = error.name === 'AbortError'
         ? 'We could not confirm your submission in time. Your entries are still here. Please email sales@lemundrinks.com if you need help.'
         : 'Your inquiry could not be confirmed. Your entries are still here—please try again or email sales@lemundrinks.com.';
       status.dataset.state = 'error';
-      status.focus();
+      revealStatus();
     } finally {
       clearTimeout(timeout);
       sending = false;

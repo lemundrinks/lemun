@@ -10,7 +10,7 @@ for (const file of ['index.html', 'privacy.html']) {
   for (const m of page.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const link = m[1];
     if (/^(https?:|mailto:|tel:|sms:|#)/.test(link)) continue;
-    await access(resolve('site', link.split('#')[0]));
+    await access(resolve('site', link.split(/[?#]/)[0]));
   }
   assert(page.includes('name="viewport"'), 'Missing viewport');
   assert(page.includes('noindex, nofollow'), 'Preview must stay noindex');
