@@ -1,4 +1,4 @@
-name: Publish Lemun review site
+name: Publish Lemun website
 on:
   push:
     branches: [main]
@@ -32,6 +32,6 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Deploy review site
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
