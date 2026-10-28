@@ -114,6 +114,7 @@ if (form) {
 const ingredientDialog = document.querySelector('#ingredient-dialog');
 if (ingredientDialog && typeof ingredientDialog.showModal === 'function') {
   let ingredientTrigger;
+  let allergenInquiry = false;
   document.querySelectorAll('.product').forEach(card => {
     const details = card.querySelector('.ingredients');
     if (!details) return;
@@ -140,6 +141,17 @@ if (ingredientDialog && typeof ingredientDialog.showModal === 'function') {
       document.body.classList.add('ingredient-modal-open');
     });
   });
+  ingredientDialog.querySelector('#ingredient-inquiry-link').addEventListener('click', event => {
+    event.preventDefault();
+    const drinkName = document.querySelector('#ingredient-title').textContent;
+    const message = document.querySelector('#message');
+    const question = `I have a question about ingredients or allergens in ${drinkName}. `;
+    document.querySelector('#inquiry-type').value = 'General question';
+    if (!message.value.trim()) message.value = question;
+    else if (!message.value.includes(question.trim())) message.value = `${question}\n\n${message.value}`;
+    allergenInquiry = true;
+    ingredientDialog.close();
+  });
   ingredientDialog.querySelector('.ingredient-close').addEventListener('click', () => ingredientDialog.close());
   ingredientDialog.addEventListener('click', event => {
     if (event.target !== ingredientDialog) return;
@@ -148,6 +160,11 @@ if (ingredientDialog && typeof ingredientDialog.showModal === 'function') {
   });
   ingredientDialog.addEventListener('close', () => {
     document.body.classList.remove('ingredient-modal-open');
-    ingredientTrigger?.focus();
+    if (allergenInquiry) {
+      allergenInquiry = false;
+      window.location.hash = 'contact';
+      document.querySelector('#contact').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+      document.querySelector('#message').focus({ preventScroll: true });
+    } else ingredientTrigger?.focus();
   });
 }
